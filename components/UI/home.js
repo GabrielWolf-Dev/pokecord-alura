@@ -2,7 +2,8 @@ import _JSXStyle from 'styled-jsx/style';
 import appConfig from '../../config.json';
 
 /* Assets */
-import btnClose from '../../assets/img/btn-close.png';
+import btnClose from '../../public/assets/img/btn-close.png';
+import defaultPhoto from '../../public/assets/gifs/charmander.gif';
 
 function BgApresentacao({ tag, children, isDisplayed }){
     const Tag = tag || 'aside';
@@ -51,7 +52,7 @@ function BoxGif(){
     return(
         <>
             <div className="box-gif">
-                <iframe src="https://giphy.com/embed/8UGGp7rQvfhe63HrFq" width="100%" height="100%" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <iframe src="https://giphy.com/embed/8UGGp7rQvfhe63HrFq" width="100%" height="100%" frameBorder="0" className="giphy-embed" allowFullScreen></iframe>
                 <p><a target="_blank" href="https://giphy.com/gifs/reaction-mood-8UGGp7rQvfhe63HrFq">via GIPHY</a></p>
             </div>
 
@@ -92,9 +93,73 @@ function ParagraphPhase({ children }){
     );
 }
 
+function BoxHomePerfil({ children }){
+    return(
+        <>
+            <div>{children}</div>
+
+            <style jsx>{`
+                div {
+                    width: 100%;
+                    max-width: 200px;
+                    height: 264px;
+                    background-color: ${appConfig.colors.black};
+                    color: ${appConfig.colors.white};
+                    box-shadow: 5px 5px 0px ${appConfig.colors.white};
+                }
+            `}</style>
+        </>
+    );
+}
+
+function ImgPerfil({ userName }){
+    const isUserName = userName == '';
+    const username = isUserName ? 'Charmander' : userName;
+
+    return(
+        <> 
+            <img
+                src={`${isUserName ? defaultPhoto.src : `https://github.com/${username}.png`}`}
+                alt={`${isUserName ? `Gif de ${username}` : `Foto de perfil do ${username} no GitHub`}`}
+            />
+
+            <style jsx>{`
+                img {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    margin: 24px auto;
+                }
+            `}</style>
+        </>
+    );
+    
+}
+
+function UserName({ children }){
+    const username = children == '' ? `Faça o login :)` : children;
+
+    return(
+        <>
+            <p>{username}</p>
+            <style jsx>{`
+                p {
+                    padding: 8px;
+                    background-color: ${appConfig.colors.black};
+                    color: ${appConfig.colors.white};
+                    font-size: var(--font-small);
+                }
+            `}</style>
+        </>
+    );
+}
+
 export {
     BgApresentacao,
     BtnClose,
     BoxGif,
-    ParagraphPhase
+    ParagraphPhase,
+    BoxHomePerfil,
+    ImgPerfil,
+    UserName
 };

@@ -2,8 +2,8 @@ import _JSXStyle from 'styled-jsx/style';
 import appConfig from '../../config.json';
 
 /* Assets: */
-import bgPikachu from '../../assets/img/pikachu-fight.jpg';
-import pokeball from '../../assets/img/pokeball-icon.png';
+import bgPikachu from '../../public/assets/img/pikachu-fight.jpg';
+import pokeball from '../../public/assets/img/pokeball-icon.png';
 
 function BgApp({ tag, children }){
     const Tag = tag || 'div';
@@ -29,7 +29,9 @@ function BgApp({ tag, children }){
     );
 }
 
-function BoxContent({ children }){
+function BoxContent({ children, isLoginPage }){
+    const loginPage = isLoginPage || false;
+
     return(
         <>
             <main>
@@ -40,7 +42,6 @@ function BoxContent({ children }){
             <style jsx>{`
                 main {
                     width: 100%;
-                    max-width: 450px;
                     padding: 24px 2%;
                     background-color: ${appConfig.colors.red};
                     box-shadow: 5px 5px 0px ${appConfig.colors.black};
@@ -48,7 +49,18 @@ function BoxContent({ children }){
                     text-align: center;
                     font-size: var(--font-normal);
                     color: ${appConfig.colors.white};
-                    z-index: 3;
+                    margin: 0 4%;
+
+                    ${loginPage ? `
+                        max-width: 800px;
+                        z-index: 1;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ` : `
+                        max-width: 450px;
+                        z-index: 3;
+                    `}
                 }
 
                 .pokeball-icon {
@@ -59,13 +71,73 @@ function BoxContent({ children }){
                     top: -21px;
                     transform: translateX(-50%);
                 }
+
+                @media (max-width: 768px) {
+                    ${loginPage ? `
+                            main {
+                                max-width: 400px;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                    ` : false}
+                }
             `}</style>
         </>
     );
 }
 
-function Title({ children, tag }){
+function InputText({ placeholderInput, inputLogin }){
+    return(
+        <>
+            <input
+                onChange={inputLogin}
+                type="text"
+                placeholder={placeholderInput}
+            />
+
+            <style jsx>{`
+                input[type='text'] {
+                    width: 100%;
+                    max-width: 350px;
+                    height: 42px;
+                    color: ${appConfig.colors.white};
+                    background-color: ${appConfig.colors.black};
+                    border: 3px solid ${appConfig.colors.white};
+                    font-size: var(--font-small);
+                    padding-left: 8px;
+                }
+            `}</style>
+        </>
+    );
+}
+
+function Button({ children, login, isLoginPage }){
+    const loginPage = isLoginPage || false;
+
+    return(
+        <>
+            <button type={loginPage ? 'submit' : 'button'} onClick={login}>{children}</button>
+
+            <style jsx>{`
+                button {
+                    width: 100%;
+                    max-width: 200px;
+                    height: 32px;
+                    margin: 16px 0;
+                    background-color: ${appConfig.colors.yellow};
+                    color: ${appConfig.colors.black};
+                    box-shadow: 5px 5px 0px ${appConfig.colors.black};
+                }
+            `}</style>
+        </>
+    );
+}
+
+function Title({ children, tag, titleLogin }){
     const Tag = tag || 'h1';
+    const title = titleLogin || false;
 
     return (
       <>
@@ -75,24 +147,35 @@ function Title({ children, tag }){
                   color: ${appConfig.colors.black};
                   font-size: var(--font-big);
                   font-weight: 600;
+                  ${title ? `
+                    width: 100%;
+                    max-width: 250px;
+                    margin: 0 auto;
+                  ` : false}
               }
         `}</style>
       </>
     );
 }
 
-function Paragraph({ tag, children }){
-    const Tag = tag || 'p'
+function Paragraph({ isLoginBox, tag, children }){
+    const Tag = tag || 'p';
+    const loginBox = isLoginBox || false;
 
     return(
         <>
             <Tag>{children}</Tag>
             <style jsx>{`
                 ${Tag} {
-                    margin: 16px 0;
+                    margin: 16px ${loginBox ? 'auto' : '0'};
                     font-size: var(--font-medium);
                     color: ${appConfig.colors.white};
                     line-height: 18px;
+
+                    ${loginBox ? `
+                        width: 100%;
+                        max-width: 200px;
+                    ` : false}
                 }
             `}</style>
         </>
@@ -125,5 +208,7 @@ export {
     BgApp,
     BoxContent,
     Paragraph,
-    LinkAncor
+    LinkAncor,
+    InputText,
+    Button
 };
