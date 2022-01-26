@@ -1,34 +1,12 @@
 {
     "name": "Pokemoncord",
-    "theme": {
-      "colors": {
-        "primary": {
-          "050": "#FFEEC2",
-          "100": "#FFE8AD",
-          "200": "#FFE299",
-          "300": "#FFDC85",
-          "400": "#FFD770",
-          "500": "#FFD15C",
-          "600": "#FFCB47",
-          "700": "#FFC533",
-          "800": "#FFBF1F",
-          "900": "#FFBA0A"
-        },
-        "neutrals": {
-          "000": "#FFFFFF",
-          "050": "#F5F7FA",
-          "100": "#E4E7EB",
-          "200": "#CBD2D9",
-          "300": "#9AA5B1",
-          "400": "#52667A",
-          "500": "#313D49",
-          "600": "#29333D",
-          "700": "#212931",
-          "800": "#181F25",
-          "900": "#101418",
-          "999": "#080A0C"
-        }
-      }
+    "colors": {
+      "white": "#FFFFFF",
+      "red": "#FF3434",
+      "red-white": "#FF5C5C",
+      "black": "#212121",
+      "yellow": "#FFBF1F",
+      "yellow-op-20": "rgba(255, 191, 31, 0.2)"
     },
     "stickers": [
       "https://www.alura.com.br/imersao-react-4/assets/figurinhas/Figurinha_1.png",
