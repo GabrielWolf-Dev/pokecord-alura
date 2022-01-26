@@ -11,13 +11,13 @@ function GlobalStyle() {
           font-family: 'Press Start 2P', sans-serif;
         }
         :root {
-          font-size: 12px;
+          font-size: 14px;
 
           /* Font-sizes */
           --font-big: 1.5rem;
           --font-normal: 1rem;
-          --font-medium: 0.67rem;
-          --font-small: 0.5rem;
+          --font-medium: 0.8rem;
+          --font-small: 0.67rem;
         }
         /* App fit Height */ 
         html, body, #__next {

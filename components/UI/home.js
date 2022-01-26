@@ -52,14 +52,40 @@ function BoxGif(){
         <>
             <div className="box-gif">
                 <iframe src="https://giphy.com/embed/8UGGp7rQvfhe63HrFq" width="100%" height="100%" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-                <p><a style={{ color: appConfig.colors.white, fontSize: 'var(--font-medium)' }} href="https://giphy.com/gifs/reaction-mood-8UGGp7rQvfhe63HrFq">via GIPHY</a></p>
+                <p><a target="_blank" href="https://giphy.com/gifs/reaction-mood-8UGGp7rQvfhe63HrFq">via GIPHY</a></p>
             </div>
 
             <style jsx>{`
                 .box-gif {
                     width: 100%;
-                    max-width: 350px;
+                    max-width: 400px;
                     position: relative;
+                }
+
+                a {
+                    font-size: var(--font-medium);
+                    color: ${appConfig.colors.white};
+                    transition: 0.3s ease-out;
+                }
+
+                a:hover {
+                    color: ${appConfig.colors.yellow};
+                }
+            `}</style>
+        </>
+    );
+}
+
+function ParagraphPhase({ children }){
+    return(
+        <>
+            <p>{children}</p>
+
+            <style jsx>{`
+                p {
+                    width: 300px;
+                    margin: 0 auto 32px auto;
+                    text-align: left;
                 }
             `}</style>
         </>
@@ -69,5 +95,6 @@ function BoxGif(){
 export {
     BgApresentacao,
     BtnClose,
-    BoxGif
+    BoxGif,
+    ParagraphPhase
 };

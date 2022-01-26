@@ -40,7 +40,7 @@ function BoxContent({ children }){
             <style jsx>{`
                 main {
                     width: 100%;
-                    max-width: 400px;
+                    max-width: 450px;
                     padding: 24px 2%;
                     background-color: ${appConfig.colors.red};
                     box-shadow: 5px 5px 0px ${appConfig.colors.black};
@@ -72,8 +72,8 @@ function Title({ children, tag }){
         <Tag>{children}</Tag>
         <style jsx>{`
               ${Tag} {
-                  color: ${appConfig.theme.colors.neutrals['000']};
-                  font-size: 24px;
+                  color: ${appConfig.colors.black};
+                  font-size: var(--font-big);
                   font-weight: 600;
               }
         `}</style>
@@ -81,8 +81,49 @@ function Title({ children, tag }){
     );
 }
 
+function Paragraph({ tag, children }){
+    const Tag = tag || 'p'
+
+    return(
+        <>
+            <Tag>{children}</Tag>
+            <style jsx>{`
+                ${Tag} {
+                    margin: 16px 0;
+                    font-size: var(--font-medium);
+                    color: ${appConfig.colors.white};
+                    line-height: 18px;
+                }
+            `}</style>
+        </>
+    );
+}
+
+function LinkAncor({ children, hrefLink, fontSize }){
+    const font = fontSize || 'var(--font-medium)';
+
+    return(
+        <>
+            <a target="_blank" href={hrefLink}>{children}</a>
+            <style jsx>{`
+                a {
+                    font-size: ${font};
+                    color: ${appConfig.colors.white};
+                    transition: 0.3s ease-out;
+                }
+
+                a:hover {
+                    color: ${appConfig.colors.yellow};
+                }
+            `}</style>
+        </>
+    );
+}
+
 export {
     Title,
     BgApp,
-    BoxContent
+    BoxContent,
+    Paragraph,
+    LinkAncor
 };
