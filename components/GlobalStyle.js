@@ -8,9 +8,16 @@ function GlobalStyle() {
           padding: 0;
           box-sizing: border-box;
           list-style: none;
+          font-family: 'Press Start 2P', sans-serif;
         }
-        body {
-            font-family: 'Press Start 2P', sans-serif;
+        :root {
+          font-size: 12px;
+
+          /* Font-sizes */
+          --font-big: 1.5rem;
+          --font-normal: 1rem;
+          --font-medium: 0.67rem;
+          --font-small: 0.5rem;
         }
         /* App fit Height */ 
         html, body, #__next {
@@ -25,6 +32,15 @@ function GlobalStyle() {
           flex: 1;
         }
         /* ./App fit Height */ 
+        button {
+          cursor: pointer;
+          border: 0;
+          background-color: transparent;
+          font-size: inherit;
+        }
+        ul {
+          list-style-type: none;
+        }
       `}</style>
     );
 }

@@ -32,21 +32,22 @@ function BgApp({ tag, children }){
 function BoxContent({ children }){
     return(
         <>
-            <aside>
+            <main>
                 <img className="pokeball-icon" src={pokeball.src} alt="Ícone de uma pokebola" />
 
                 {children}
-            </aside>
+            </main>
             <style jsx>{`
-                aside {
+                main {
                     width: 100%;
                     max-width: 400px;
-                    padding: 16px 2%;
+                    padding: 24px 2%;
                     background-color: ${appConfig.colors.red};
                     box-shadow: 5px 5px 0px ${appConfig.colors.black};
                     position: relative;
                     text-align: center;
-                    font-size: 12px;
+                    font-size: var(--font-normal);
+                    color: ${appConfig.colors.white};
                     z-index: 3;
                 }
 

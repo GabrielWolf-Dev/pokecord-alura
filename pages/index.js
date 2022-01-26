@@ -3,7 +3,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import appConfig from '../config.json';
 
 /* Assets: */
-import gifPokemons from '../assets/img/pokemons.gif';
+
 
 /* Components */
 import GlobalStyle from '../components/GlobalStyle';
@@ -14,12 +14,15 @@ import {
 } from '../components/UI/generic-components';
 import {
   BgApresentacao,
-  BtnClose
+  BtnClose,
+  BoxGif
 } from '../components/UI/home';
+import { useState } from 'react';
 
 function Home(){
+  const [isDisplayed, setIsDisplayed] = useState(true);
   const username = 'GabrielWolf-Dev';
-  const pharse = [
+  const pharses = [
     'Seja bem vindo ao Pokecord! 👋',
     'Uma comunidade que troca ideias sobre pokémon, desafiam-se e batalham 🔥',
     'Todos tem o desejo de ser o melhor treinador pokémon :) ✨',
@@ -33,6 +36,8 @@ function Home(){
   function stopApresentation(){
     // Retirar a apresentação e parar a musica se ela não acabar...
     // E coloca na Box de logar com a conta
+    setIsDisplayed(false);
+    console.log(isDisplayed);
   }
 
   return (
@@ -41,15 +46,28 @@ function Home(){
       <GlobalStyle />
 
       <BgApp>
-        <BgApresentacao>
+        <BgApresentacao isDisplayed={isDisplayed}>
           <BoxContent>
-            <BtnClose onClick={stopApresentation} />
+            <BtnClose stopApresentation={stopApresentation} />
 
-            <p>sasasa</p>
-            <p>sasasa</p>
-            <p>sasasa</p>
-            <p>sasasa</p>
-            <p>sasasa</p>
+            <Player
+              autoplay
+              loop
+              src="https://assets7.lottiefiles.com/private_files/lf30_rBOODA.json"
+              style={{ height: '200px', width: '200px' }}
+            />
+
+          <Typewriter
+              words={pharses}
+              loop={2}
+              cursor
+              cursorStyle='|'
+              typeSpeed={60}
+              deleteSpeed={40}
+              delaySpeed={1000}
+          />
+
+          <BoxGif />
           </BoxContent>
         </BgApresentacao>
       </BgApp>
