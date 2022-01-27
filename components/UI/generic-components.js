@@ -5,7 +5,7 @@ import appConfig from '../../config.json';
 import bgPikachu from '../../public/assets/img/pikachu-fight.jpg';
 import pokeball from '../../public/assets/img/pokeball-icon.png';
 
-function BgApp({ tag, children }){
+function BgApp({ children, tag }){
     const Tag = tag || 'div';
 
     return(
@@ -95,6 +95,7 @@ function InputText({ placeholderInput, inputLogin }){
                 onChange={inputLogin}
                 type="text"
                 placeholder={placeholderInput}
+                required
             />
 
             <style jsx>{`
@@ -113,12 +114,12 @@ function InputText({ placeholderInput, inputLogin }){
     );
 }
 
-function Button({ children, login, isLoginPage }){
+function Button({ children, isLoginPage }){
     const loginPage = isLoginPage || false;
 
     return(
         <>
-            <button type={loginPage ? 'submit' : 'button'} onClick={login}>{children}</button>
+            <button type={loginPage ? 'submit' : 'button'}>{children}</button>
 
             <style jsx>{`
                 button {
@@ -158,7 +159,7 @@ function Title({ children, tag, titleLogin }){
     );
 }
 
-function Paragraph({ isLoginBox, tag, children }){
+function Paragraph({ children, isLoginBox, tag }){
     const Tag = tag || 'p';
     const loginBox = isLoginBox || false;
 

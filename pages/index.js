@@ -1,10 +1,9 @@
+import { useRouter } from 'next/router';
 import { Typewriter } from 'react-simple-typewriter';
 import { Player } from '@lottiefiles/react-lottie-player';
 import appConfig from '../config.json';
 
 /* Components */
-import GlobalStyle from '../components/GlobalStyle';
-import HeadHTML from '../components/Head';
 import {
   BgApp,
   BoxContent,
@@ -37,6 +36,7 @@ function Home(){
     'Logue com sua conta do GitHub e venha batalhar com a gente! 😀',
   ];
   const [inputValueLogin, setInputValueLogin] = useState('');
+  const router = useRouter();
 
   function stopApresentation(){
     // Retirar a apresentação e parar a musica se ela não acabar...
@@ -46,18 +46,28 @@ function Home(){
 
   function inputLogin(e){
     const value = e.target.value;
-    console.log(value);
+    const input = e.target;
+
     setInputValueLogin(value);
+    
+    if(value.length > 2) {
+      input.setCustomValidity("");
+    } else {
+      input.setCustomValidity("O nome do usuário deve ser maior do que 2 caracteres!");
+    }
+    
+    if(value.length === 0)
+      input.setCustomValidity("O campo está vazio! Preencha-o.");
   }
 
-  function login(){
-    console.log('login github');
+  function login(e){
+    e.preventDefault();
+
+    router.push('/chat');
   }
 
   return (
     <>
-      <HeadHTML />
-      <GlobalStyle />
       <audio autoPlay src="/assets/sounds/pokemon-cover.mp3"></audio>
 
       <BgApp>
@@ -97,12 +107,12 @@ function Home(){
             <Title titleLogin={true}>Boas Vindas Treinador!</Title>
             <Paragraph>{appConfig.name}</Paragraph>
 
-            <form>
+            <form onSubmit={login}>
               <InputText
                 inputLogin={inputLogin}
                 placeholderInput="Digite o seu nome do GitHub"
               />
-              <Button isLoginPage={true} login={login}>Entrar</Button>
+              <Button isLoginPage={true}>Entrar</Button>
             </form>
 
             <Paragraph isLoginBox={true}>Não possui uma conta no <LinkAncor hrefLink="https://github.com/signup">github?</LinkAncor></Paragraph>

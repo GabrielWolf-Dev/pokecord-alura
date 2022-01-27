@@ -5,7 +5,7 @@ import appConfig from '../../config.json';
 import btnClose from '../../public/assets/img/btn-close.png';
 import defaultPhoto from '../../public/assets/gifs/charmander.gif';
 
-function BgApresentacao({ tag, children, isDisplayed }){
+function BgApresentacao({ children, tag, isDisplayed }){
     const Tag = tag || 'aside';
 
     return(
@@ -113,7 +113,7 @@ function BoxHomePerfil({ children }){
 }
 
 function ImgPerfil({ userName }){
-    const isUserName = userName == '';
+    const isUserName = userName.length === 0 || userName.length <= 2;
     const username = isUserName ? 'Charmander' : userName;
 
     return(
@@ -137,7 +137,7 @@ function ImgPerfil({ userName }){
 }
 
 function UserName({ children }){
-    const username = children == '' ? `Faça o login :)` : children;
+    const username = children.length === 0 || children.length <= 2 ? `Faça o login :)` : children;
 
     return(
         <>
