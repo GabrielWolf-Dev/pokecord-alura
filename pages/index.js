@@ -102,17 +102,17 @@ function Home(){
           </BoxContent>
         </BgApresentacao>
 
-        <BoxContent isLoginPage={true}>
+        <BoxContent isLoginPage={true} as="main">
           <main style={{ width: '100%', maxWidth: '400px', padding: '24px 2%' }}>
             <Title titleLogin={true}>Boas Vindas Treinador!</Title>
             <Paragraph>{appConfig.name}</Paragraph>
 
             <form onSubmit={login}>
               <InputText
-                inputLogin={inputLogin}
+                inputHandler={inputLogin}
                 placeholderInput="Digite o seu nome do GitHub"
               />
-              <Button isLoginPage={true}>Entrar</Button>
+              <Button isSubmit={true}>Entrar</Button>
             </form>
 
             <Paragraph isLoginBox={true}>Não possui uma conta no <LinkAncor hrefLink="https://github.com/signup">github?</LinkAncor></Paragraph>

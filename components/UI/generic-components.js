@@ -29,18 +29,18 @@ function BgApp({ children, tag }){
     );
 }
 
-function BoxContent({ children, isLoginPage }){
-    const loginPage = isLoginPage || false;
+function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" }){
+    const Tag = as;
 
     return(
         <>
-            <main>
+            <Tag>
                 <img className="pokeball-icon" src={pokeball.src} alt="Ícone de uma pokebola" />
 
                 {children}
-            </main>
+            </Tag>
             <style jsx>{`
-                main {
+                ${Tag} {
                     width: 100%;
                     padding: 24px 2%;
                     background-color: ${appConfig.colors.red};
@@ -51,12 +51,14 @@ function BoxContent({ children, isLoginPage }){
                     color: ${appConfig.colors.white};
                     margin: 0 4%;
 
-                    ${loginPage ? `
+                    ${isLoginPage ? `
                         max-width: 800px;
                         z-index: 1;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
+                    ` : ischatPage ? `
+                        max-width: 1100px;
                     ` : `
                         max-width: 450px;
                         z-index: 3;
@@ -73,8 +75,8 @@ function BoxContent({ children, isLoginPage }){
                 }
 
                 @media (max-width: 768px) {
-                    ${loginPage ? `
-                            main {
+                    ${isLoginPage ? `
+                            ${Tag} {
                                 max-width: 400px;
                                 display: flex;
                                 flex-direction: column;
@@ -88,11 +90,11 @@ function BoxContent({ children, isLoginPage }){
     );
 }
 
-function InputText({ placeholderInput, inputLogin }){
+function InputText({ placeholderInput, inputHandler, isChatInput }){
     return(
         <>
             <input
-                onChange={inputLogin}
+                onChange={inputHandler}
                 type="text"
                 placeholder={placeholderInput}
                 required
@@ -101,7 +103,7 @@ function InputText({ placeholderInput, inputLogin }){
             <style jsx>{`
                 input[type='text'] {
                     width: 100%;
-                    max-width: 350px;
+                    max-width: ${isChatInput ? '950px' : '350px'};
                     height: 42px;
                     color: ${appConfig.colors.white};
                     background-color: ${appConfig.colors.black};
@@ -114,12 +116,10 @@ function InputText({ placeholderInput, inputLogin }){
     );
 }
 
-function Button({ children, isLoginPage }){
-    const loginPage = isLoginPage || false;
-
+function Button({ children, isSubmit=false, handleAction }){
     return(
         <>
-            <button type={loginPage ? 'submit' : 'button'}>{children}</button>
+            <button onClick={handleAction} type={isSubmit ? 'submit' : 'button'}>{children}</button>
 
             <style jsx>{`
                 button {
