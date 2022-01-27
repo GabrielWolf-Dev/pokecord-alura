@@ -122,7 +122,11 @@ function Home(){
             <ImgPerfil userName={inputValueLogin} />
 
             <UserName>{inputValueLogin}</UserName>
-            <LinkAncor hrefLink="https://giphy.com/gifs/pokemon-harley-quinn-the-joker-yhfTY8JL1wIAE">GIPHY</LinkAncor>
+            <span style={{ display: inputValueLogin.length <= 2 ? 'inline-block' : 'none'}}>
+              <LinkAncor
+                hrefLink="https://giphy.com/gifs/pokemon-harley-quinn-the-joker-yhfTY8JL1wIAE"
+              >GIPHY</LinkAncor>
+            </span>
           </BoxHomePerfil>
         </BoxContent>
       </BgApp>
