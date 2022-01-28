@@ -1,4 +1,5 @@
 import _JSXStyle from 'styled-jsx/style';
+import appConfig from '../config.json';
 
 function GlobalStyle() {
     return (
@@ -40,6 +41,20 @@ function GlobalStyle() {
         }
         ul {
           list-style-type: none;
+        }
+
+
+        *::-webkit-scrollbar {
+          width: 8px;
+        }
+      
+        *::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+          background-color: ${appConfig.colors.black};
+          border-radius: 12px;
         }
       `}</style>
     );

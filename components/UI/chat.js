@@ -62,13 +62,14 @@ function BoxChat({ children }) {
                 main {
                     width: 100%;
                     max-width: 1050px;
+                    height: 600px;
                     padding: 24px 2%;
                     background-color: ${appConfig.colors['red-white']};
                     box-shadow: 5px 5px 0px ${appConfig.colors.black};
                     text-align: center;
                     font-size: var(--font-normal);
                     color: ${appConfig.colors.white};
-                    margin: 0 auto;    
+                    margin: 0 auto;
                 }
             `}</style>
         </>
@@ -84,8 +85,10 @@ function ListMessages({ children }) {
                 ul {
                     width: 100%;
                     height: 100%;
-                    padding: 24px;
                     text-align: left;
+                    overflow-y: scroll;
+                    display: flex;
+                    flex-direction: column-reverse;
                 }
             `}</style>
         </>
@@ -111,21 +114,31 @@ function Message({ date, username, msg }) {
 
             <style jsx>{`
                 li {
-                    width: 100%;
-                    margin: 24px 0;
+                    width: auto;
+                    padding: 16px 2%;
+                    border-radius: 12px;
+                    transition: .3s ease-out;
+                }
+
+                li:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                li:first-child {
+                    padding: 0 2% 16px 2%;
                 }
 
                 header {
                     width: 100%;
-                    max-width: 300px;
+                    max-width: 310px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                 }
 
                 img {
-                    width: 32px;
-                    height: 32px;
+                    width: 42px;
+                    height: 42px;
                     border-radius: 50%;
                 }
 
@@ -153,10 +166,38 @@ function Message({ date, username, msg }) {
     );
 }
 
+function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput }){
+    return(
+        <>
+            <textarea
+                value={value}
+                onChange={handleOnChange}
+                onKeyPress={handleKeyPress}
+                placeholder={placeholderInput}
+            ></textarea>
+
+            <style jsx>{`
+                textarea {
+                    width: 100%;
+                    max-width: '950px';
+                    height: 42px;
+                    color: ${appConfig.colors.white};
+                    background-color: ${appConfig.colors.black};
+                    border: 3px solid ${appConfig.colors.white};
+                    font-size: var(--font-small);
+                    padding: 8px;
+                    resize: none;
+                }
+            `}</style>
+        </>
+    );
+}
+
 export {
     Header,
     Options,
     BoxChat,
     ListMessages,
-    Message
+    Message,
+    TextArea
 };

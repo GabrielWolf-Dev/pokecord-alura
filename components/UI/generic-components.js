@@ -90,7 +90,7 @@ function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" })
     );
 }
 
-function InputText({ placeholderInput, inputHandler, isChatInput }){
+function InputText({ placeholderInput, inputHandler }){
     return(
         <>
             <input
@@ -103,7 +103,7 @@ function InputText({ placeholderInput, inputHandler, isChatInput }){
             <style jsx>{`
                 input[type='text'] {
                     width: 100%;
-                    max-width: ${isChatInput ? '950px' : '350px'};
+                    max-width: 350px;
                     height: 42px;
                     color: ${appConfig.colors.white};
                     background-color: ${appConfig.colors.black};

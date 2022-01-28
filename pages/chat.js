@@ -15,14 +15,53 @@ import {
     Options,
     BoxChat,
     ListMessages,
-    Message
+    Message,
+    TextArea
 } from '../components/UI/chat';
+import { useState } from 'react';
 
 function ChatPage(){
     const router = useRouter();
+    const [message, setMessage] = useState("");
+    const [msgList, setMsgList] = useState([]);
 
     function logout(){
         router.push('/');
+    }
+
+    function handleMsg(e){
+        const msg = e.target.value;
+        
+        // Pelo jeito, vai ter que gravar a data por aqui, colocando um objeto:
+        // { msg: 'message...', date: 27/01/2022, username: 'User name GitHub' }
+        // Parece que vou ter que armazenar no localStorage o username, quando efetua o login, mas vamos ver ao decorrer das aulas...
+        
+        setMessage(msg);
+    }
+
+    function sendMessage(e){
+        if(e.key === 'Enter' || e.type === 'click') {
+            e.preventDefault();
+
+            newMessage(message);
+        }
+    }
+
+    function newMessage(msg){
+        const date = new Date();
+        const msgFrom = {
+            id: msgList.length + 1,
+            from: 'GabrielWolf-Dev',
+            message: msg,
+            date: (date.toLocaleDateString())
+        };
+
+        setMsgList([
+            msgFrom,
+            ...msgList
+        ]);
+
+        setMessage('');
     }
 
     return(
@@ -39,11 +78,16 @@ function ChatPage(){
 
                 <BoxChat>
                     <ListMessages>
-                        <Message
-                            username={"GabrielWolf-Dev"}
-                            date="27/01/2022"
-                            msg="Primeira mensagem do chat..."
-                        />
+                        {
+                            msgList.map((msg) => 
+                                <Message
+                                    key={msg.id}
+                                    msg={msg.message}
+                                    username={msg.from}
+                                    date={msg.date}
+                                />    
+                            )
+                        }
                     </ListMessages>
                 </BoxChat>
 
@@ -53,13 +97,15 @@ function ChatPage(){
                     alignItems: 'center',
                     marginTop: '24px'
                 }}>
-                    <InputText
-                        isChatInput={true}
+                    <TextArea
+                        value={message}
+                        handleOnChange={handleMsg}
+                        handleKeyPress={sendMessage}
                         placeholderInput="Insira a mensagem aqui..."
-                        
                     />
     
                     <button
+                        onClick={sendMessage}
                         style={{ marginLeft: '24px' }}
                         type="submit"
                     >
