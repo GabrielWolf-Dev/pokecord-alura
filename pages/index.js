@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Typewriter } from 'react-simple-typewriter';
 import { Player } from '@lottiefiles/react-lottie-player';
+import { filterXSS } from 'xss';
 import appConfig from '../config.json';
 
 /* Components */
@@ -22,7 +24,6 @@ import {
   ImgPerfil,
   UserName
 } from '../components/UI/home';
-import { useState } from 'react';
 
 function Home(){
   const [isDisplayed, setIsDisplayed] = useState(true);
@@ -46,17 +47,18 @@ function Home(){
 
   function inputLogin(e){
     const value = e.target.value;
+    const sanitizedValue = filterXSS(value);
     const input = e.target;
 
-    setInputValueLogin(value);
+    setInputValueLogin(sanitizedValue);
     
-    if(value.length > 2) {
+    if(sanitizedValue.length > 2) {
       input.setCustomValidity("");
     } else {
       input.setCustomValidity("O nome do usuário deve ser maior do que 2 caracteres!");
     }
     
-    if(value.length === 0)
+    if(sanitizedValue.length === 0)
       input.setCustomValidity("O campo está vazio! Preencha-o.");
   }
 

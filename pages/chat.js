@@ -1,4 +1,7 @@
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { filterXSS } from 'xss';
+import { createClient } from '@supabase/supabase-js';
 
 /* Assets: */
 import btnSend from '../public/assets/img/button-send.png';
@@ -7,8 +10,7 @@ import btnSend from '../public/assets/img/button-send.png';
 import { 
     BgApp,
     BoxContent,
-    Button,
-    InputText
+    Button
 } from '../components/UI/generic-components';
 import {
     Header,
@@ -18,12 +20,25 @@ import {
     Message,
     TextArea
 } from '../components/UI/chat';
-import { useState } from 'react';
+
 
 function ChatPage(){
     const router = useRouter();
     const [message, setMessage] = useState("");
     const [msgList, setMsgList] = useState([]);
+    const supabaseURL = process.env.NEXT_PUBLIC_URL_SUPABASE;
+    const supabaseAnonKEY = process.env.NEXT_PUBLIC_ANON_KEY_SUPABASE;
+    const supabaseConnection = createClient(supabaseURL, supabaseAnonKEY);
+    const table = 'messages';
+
+    useEffect(async () => {
+        const { data } = await supabaseConnection
+            .from(table)
+            .select('*')
+            .order('id', { ascending: false });
+
+        setMsgList(data);
+    }, []);
 
     function logout(){
         router.push('/');
@@ -31,12 +46,13 @@ function ChatPage(){
 
     function handleMsg(e){
         const msg = e.target.value;
+        const sanitizedMsg = filterXSS(msg);
         
         // Pelo jeito, vai ter que gravar a data por aqui, colocando um objeto:
         // { msg: 'message...', date: 27/01/2022, username: 'User name GitHub' }
         // Parece que vou ter que armazenar no localStorage o username, quando efetua o login, mas vamos ver ao decorrer das aulas...
         
-        setMessage(msg);
+        setMessage(sanitizedMsg);
     }
 
     function sendMessage(e){
@@ -47,19 +63,24 @@ function ChatPage(){
         }
     }
 
-    function newMessage(msg){
+    async function newMessage(msg){
         const date = new Date();
+
         const msgFrom = {
-            id: msgList.length + 1,
             from: 'GabrielWolf-Dev',
             message: msg,
-            date: (date.toLocaleDateString())
+            created_at: date,
         };
+        const { data, status } = await supabaseConnection
+            .from(table)
+            .insert([msgFrom]);
 
-        setMsgList([
-            msgFrom,
-            ...msgList
-        ]);
+        if(status === 201) {
+            setMsgList([
+                data[0],
+                ...msgList
+            ]);
+        }
 
         setMessage('');
     }
@@ -79,13 +100,19 @@ function ChatPage(){
                 <BoxChat>
                     <ListMessages>
                         {
-                            msgList.map((msg) => 
-                                <Message
-                                    key={msg.id}
-                                    msg={msg.message}
-                                    username={msg.from}
-                                    date={msg.date}
-                                />    
+                            msgList.map((msg) => {
+                                const date = new Date(msg.created_at);
+
+                                return(
+                                    <Message
+                                        key={msg.id}
+                                        msg={msg.message}
+                                        username={msg.from}
+                                        date={date.toLocaleDateString()}
+                                    />  
+                                );
+                            }
+                                  
                             )
                         }
                     </ListMessages>

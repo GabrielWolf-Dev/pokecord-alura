@@ -124,15 +124,10 @@ function Message({ date, username, msg }) {
                     background-color: rgba(255, 255, 255, 0.2);
                 }
 
-                li:first-child {
-                    padding: 0 2% 16px 2%;
-                }
-
                 header {
                     width: 100%;
-                    max-width: 310px;
+                    max-width: 400px;
                     display: flex;
-                    justify-content: space-between;
                     align-items: center;
                 }
 
@@ -140,6 +135,7 @@ function Message({ date, username, msg }) {
                     width: 42px;
                     height: 42px;
                     border-radius: 50%;
+                    margin-right: 16px;
                 }
 
                 span {
@@ -160,6 +156,18 @@ function Message({ date, username, msg }) {
                     font-size: var(--font-medium);
                     margin-left: 4px;
                     margin-top: 16px;
+                }
+
+                @media (max-width: 468px) {
+                    img {
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 4px;
+                    }
+
+                    span {
+                        margin-right: 4px;
+                    }
                 }
             `}</style>
         </>
