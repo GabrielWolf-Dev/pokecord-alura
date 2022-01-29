@@ -216,7 +216,7 @@ function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput }){
     );
 }
 
-function ImageGitHub({ src, alt, isCardLanguage=false }){
+function ImageGitHub({ src, alt }){
     return(
         <>
             <img src={src} alt={alt} />
@@ -224,9 +224,16 @@ function ImageGitHub({ src, alt, isCardLanguage=false }){
             <style jsx>{`
                 img {
                     width: 100%;
-                    max-width: ${isCardLanguage ? '375px' : '450px'};
+                    max-width: 450px;
                     display: inline-block;
                     margin: 24px 8px;
+                }
+
+                @media (max-width: 568px) {
+                    img {
+                        max-width: 350px;
+                        margin: 24px 0;
+                    }
                 }
             `}</style>
         </>

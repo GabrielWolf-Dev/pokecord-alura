@@ -29,12 +29,11 @@ function Home(){
   const [isDisplayed, setIsDisplayed] = useState(true);
   const pharses = [
     'Seja bem vindo ao Pokecord! 👋',
-    'Uma comunidade que troca ideias sobre pokémon, desafiam-se e batalham 🔥',
-    'Todos tem o desejo de ser o melhor treinador pokémon :) ✨',
-    'Você pode encontrar o seu pokemon favorito e batalhar até a vitória 🏆',
+    'Uma comunidade que troca ideias sobre Pokémon e compartilham conhecimento sobre programação 🧑‍💻👩‍💻',
+    'Você pode encontrar o seu pokemon favorito e compartilhar o seu status 🌐',
     'Projeto feito por GabrielWolf-Dev, junto com a imersão React da Alura e toda a sua comunidade 🖥️',
     'Agradeço muito a Alura por prover esta oportunidade e a toda comunidade que apoia essas imersões maravilhosas!!! ❤️',
-    'Logue com sua conta do GitHub e venha batalhar com a gente! 😀',
+    'Logue com sua conta do GitHub e venha conhecer outros entusiastas do universo pokémon! 😀',
   ];
   const [inputValueLogin, setInputValueLogin] = useState('');
   const router = useRouter();

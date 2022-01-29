@@ -185,29 +185,36 @@ function ChatPage(){
                 </form>
 
                 <BoxChatPage isChatVisible={!isChatVisible}>
-                        <Title as="h2">GitHub Status:</Title>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                overflow: 'scroll'
+                            }}
+                        >
+                            <Title as="h2">GitHub Status:</Title>
 
                         
-                        <section
-                            key={dataGitHub.id}
-                            style={{ marginTop: '24px', textAlign: 'left' }}
-                        >
-                            <SubTitle>Nome: <span style={{ color: appConfig.colors.white}}>{dataGitHub.name}</span></SubTitle>
-                            <Paragraph><span style={{ color: appConfig.colors.black}}>Sobre:</span> {dataGitHub.bio}</Paragraph>
-                            <Paragraph>Conta criada - {formatDates.created_at} <span style={{ color: appConfig.colors.black}}>|</span> Ultima atividade - {formatDates.lastUpdate}.</Paragraph>
-                            <Paragraph>Você conhece {dataGitHub.followers + dataGitHub.following} treinadores pokémon, interaja no chat e faça novas alianças 🤝</Paragraph>
-                        </section>
+                            <section
+                                key={dataGitHub.id}
+                                style={{ marginTop: '24px', textAlign: 'left' }}
+                            >
+                                <SubTitle>Nome: <span style={{ color: appConfig.colors.white}}>{dataGitHub.name}</span></SubTitle>
+                                <Paragraph><span style={{ color: appConfig.colors.black}}>Sobre:</span> {dataGitHub.bio}</Paragraph>
+                                <Paragraph>Conta criada - {formatDates.created_at} <span style={{ color: appConfig.colors.black}}>|</span> Ultima atividade - {formatDates.lastUpdate}.</Paragraph>
+                                <Paragraph>Você conhece {dataGitHub.followers + dataGitHub.following} treinadores pokémon, interaja no chat e faça novas alianças 🤝</Paragraph>
+                            </section>
 
-                        <ImageGitHub
-                            src={`https://github-readme-stats.vercel.app/api?username=${userLogged}&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true`}
-                            alt={`Github Stats ${userLogged}`}
-                        />
+                            <ImageGitHub
+                                src={`https://github-readme-stats.vercel.app/api?username=${userLogged}&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true`}
+                                alt={`Github Stats ${userLogged}`}
+                            />
 
-                        <ImageGitHub
-                            isCardLanguage={true}
-                            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${userLogged}&layout=compact&langs_count=7&theme=tokyonight`}
-                            alt={`Github Stats ${userLogged}`}
-                        />
+                            <ImageGitHub
+                                src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${userLogged}&layout=compact&langs_count=7&theme=tokyonight`}
+                                alt={`Github Stats ${userLogged}`}
+                            />
+                        </div>
                 </BoxChatPage>
             </BoxContent>
         </BgApp>
