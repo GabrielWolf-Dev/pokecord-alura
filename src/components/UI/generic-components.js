@@ -1,9 +1,9 @@
 import _JSXStyle from 'styled-jsx/style';
-import appConfig from '../../config.json';
+import appConfig from '../../../config.json';
 
 /* Assets: */
-import bgPikachu from '../../public/assets/img/pikachu-fight.jpg';
-import pokeball from '../../public/assets/img/pokeball-icon.png';
+import bgPikachu from '../../../public/assets/img/pikachu-fight.jpg';
+import pokeball from '../../../public/assets/img/pokeball-icon.png';
 
 function BgApp({ children, tag }){
     const Tag = tag || 'div';

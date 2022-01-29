@@ -14,7 +14,7 @@ import {
   Title,
   InputText,
   Button
-} from '../components/UI/generic-components';
+} from '../src/components/UI/generic-components';
 import {
   BgApresentacao,
   BtnClose,
@@ -23,7 +23,7 @@ import {
   BoxHomePerfil,
   ImgPerfil,
   UserName
-} from '../components/UI/home';
+} from '../src/components/UI/home';
 
 function Home(){
   const [isDisplayed, setIsDisplayed] = useState(true);
@@ -65,7 +65,7 @@ function Home(){
   function login(e){
     e.preventDefault();
 
-    router.push('/chat');
+    router.push(`/chat?username=${inputValueLogin}`);
   }
 
   return (

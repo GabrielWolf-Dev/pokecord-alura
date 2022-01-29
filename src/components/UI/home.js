@@ -1,9 +1,9 @@
 import _JSXStyle from 'styled-jsx/style';
-import appConfig from '../../config.json';
+import appConfig from '../../../config.json';
 
 /* Assets */
-import btnClose from '../../public/assets/img/btn-close.png';
-import defaultPhoto from '../../public/assets/gifs/charmander.gif';
+import btnClose from '../../../public/assets/img/btn-close.png';
+import defaultPhoto from '../../../public/assets/gifs/charmander.gif';
 
 function BgApresentacao({ children, tag, isDisplayed }){
     const Tag = tag || 'aside';

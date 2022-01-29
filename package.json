@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.4.1",
+    "@skynexui/components": "^1.24.2",
     "@supabase/supabase-js": "^1.29.4",
     "next": "^12.0.8",
     "react": "^17.0.2",

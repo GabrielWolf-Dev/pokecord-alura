@@ -1,5 +1,5 @@
 import _JSXStyle from 'styled-jsx/style';
-import appConfig from '../../config.json';
+import appConfig from '../../../config.json';
 
 function Header({ children }) {
     return(
@@ -100,7 +100,7 @@ function Message({ date, username, msg }) {
         <>
             <li>
                 <header>
-                    <img src={`https://github.com/${username}.png`} alt={`Foto de perfil do usuário ${username} no GitHub`} />
+                    <img className="img-username" src={`https://github.com/${username}.png`} alt={`Foto de perfil do usuário ${username} no GitHub`} />
 
                     <div>
                         <span className="username-msg">{username}</span>
@@ -109,7 +109,12 @@ function Message({ date, username, msg }) {
                     </div>
                 </header>
 
-                <p>{msg}</p>
+                <p>{
+                    msg.startsWith(':sticker:')
+                    ? (
+                        <img className="gif" src={msg.replace(':sticker:', '')} alt={`Gif enviado por ${username}`} />
+                    ) : msg
+                }</p>
             </li>
 
             <style jsx>{`
@@ -131,7 +136,12 @@ function Message({ date, username, msg }) {
                     align-items: center;
                 }
 
-                img {
+                .gif {
+                    width: 100%;
+                    max-width: 200px;
+                }
+
+                .img-username {
                     width: 42px;
                     height: 42px;
                     border-radius: 50%;
@@ -159,11 +169,15 @@ function Message({ date, username, msg }) {
                 }
 
                 @media (max-width: 468px) {
-                    img {
+                    .img-username {
                         width: 24px;
                         height: 24px;
                         margin-right: 4px;
                     }
+
+                    .gif {
+                        max-width: 150px;
+                    } 
 
                     span {
                         margin-right: 4px;

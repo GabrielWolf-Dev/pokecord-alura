@@ -11,7 +11,7 @@ import {
     BgApp,
     BoxContent,
     Button
-} from '../components/UI/generic-components';
+} from '../src/components/UI/generic-components';
 import {
     Header,
     Options,
@@ -19,17 +19,29 @@ import {
     ListMessages,
     Message,
     TextArea
-} from '../components/UI/chat';
+} from '../src/components/UI/chat';
+import ButtonSendSticker from '../src/components/ButtonStiker';
 
+/* Config Supabase: */
+const supabaseURL = process.env.NEXT_PUBLIC_URL_SUPABASE;
+const supabaseAnonKEY = process.env.NEXT_PUBLIC_ANON_KEY_SUPABASE;
+const supabaseConnection = createClient(supabaseURL, supabaseAnonKEY);
+const table = 'messages';
+
+/* Real Time Users Messages */
+function listenMsgsRealTime(newMessage) {
+    return supabaseConnection
+    .from(table)
+    .on("INSERT", (resRealTime) => {
+        newMessage(resRealTime.new);
+    }).subscribe();
+}
 
 function ChatPage(){
     const router = useRouter();
+    const userLogged = router.query.username;
     const [message, setMessage] = useState("");
     const [msgList, setMsgList] = useState([]);
-    const supabaseURL = process.env.NEXT_PUBLIC_URL_SUPABASE;
-    const supabaseAnonKEY = process.env.NEXT_PUBLIC_ANON_KEY_SUPABASE;
-    const supabaseConnection = createClient(supabaseURL, supabaseAnonKEY);
-    const table = 'messages';
 
     useEffect(async () => {
         const { data } = await supabaseConnection
@@ -38,6 +50,13 @@ function ChatPage(){
             .order('id', { ascending: false });
 
         setMsgList(data);
+
+        listenMsgsRealTime((newMsg) => {
+            setMsgList((currentValueList => [
+                newMsg,
+                ...currentValueList
+            ]));
+        });
     }, []);
 
     function logout(){
@@ -47,10 +66,6 @@ function ChatPage(){
     function handleMsg(e){
         const msg = e.target.value;
         const sanitizedMsg = filterXSS(msg);
-        
-        // Pelo jeito, vai ter que gravar a data por aqui, colocando um objeto:
-        // { msg: 'message...', date: 27/01/2022, username: 'User name GitHub' }
-        // Parece que vou ter que armazenar no localStorage o username, quando efetua o login, mas vamos ver ao decorrer das aulas...
         
         setMessage(sanitizedMsg);
     }
@@ -67,22 +82,23 @@ function ChatPage(){
         const date = new Date();
 
         const msgFrom = {
-            from: 'GabrielWolf-Dev',
+            from: userLogged,
             message: msg,
             created_at: date,
         };
-        const { data, status } = await supabaseConnection
+
+        /* Insert to Supabase */
+        await supabaseConnection
             .from(table)
             .insert([msgFrom]);
 
-        if(status === 201) {
-            setMsgList([
-                data[0],
-                ...msgList
-            ]);
-        }
-
         setMessage('');
+    }
+
+    function sendSticker(sticker){
+        const msgSticker = ':sticker:' + sticker;
+
+        newMessage(msgSticker);
     }
 
     return(
@@ -130,10 +146,13 @@ function ChatPage(){
                         handleKeyPress={sendMessage}
                         placeholderInput="Insira a mensagem aqui..."
                     />
+
+                    <ButtonSendSticker
+                        onStickerClick={sendSticker}
+                    />
     
                     <button
                         onClick={sendMessage}
-                        style={{ marginLeft: '24px' }}
                         type="submit"
                     >
                         <img src={btnSend.src} alt="Botão de enviar mensagem" />
