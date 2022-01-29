@@ -159,6 +159,22 @@ function Title({ children, tag, titleLogin }){
     );
 }
 
+function SubTitle({ children }) {
+    return(
+        <>
+            <h3>{children}</h3>
+
+            <style jsx>{`
+                h3 {
+                    color: ${appConfig.colors.black};
+                    font-size: var(--font-normal);
+                    font-weight: normal;
+                }
+            `}</style>
+        </>
+    );
+}
+
 function Paragraph({ children, isLoginBox, tag }){
     const Tag = tag || 'p';
     const loginBox = isLoginBox || false;
@@ -211,5 +227,6 @@ export {
     Paragraph,
     LinkAncor,
     InputText,
-    Button
+    Button,
+    SubTitle
 };

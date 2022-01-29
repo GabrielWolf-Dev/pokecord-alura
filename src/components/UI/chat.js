@@ -29,10 +29,10 @@ function Header({ children }) {
     );
 }
 
-function Options({ children }) {
+function Options({ children, handlerChat }) {
     return(
         <>
-            <button>{children}</button>
+            <button onClick={handlerChat}>{children}</button>
 
             <style jsx>{`
                 button {
@@ -53,7 +53,7 @@ function Options({ children }) {
     );
 }
 
-function BoxChat({ children }) {
+function BoxChatPage({ children, isChatVisible }) {
     return(
         <>
             <main>{children}</main>
@@ -70,6 +70,7 @@ function BoxChat({ children }) {
                     font-size: var(--font-normal);
                     color: ${appConfig.colors.white};
                     margin: 0 auto;
+                    display: ${isChatVisible ? 'block' : 'none'};
                 }
             `}</style>
         </>
@@ -215,11 +216,29 @@ function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput }){
     );
 }
 
+function ImageGitHub({ src, alt, isCardLanguage=false }){
+    return(
+        <>
+            <img src={src} alt={alt} />
+
+            <style jsx>{`
+                img {
+                    width: 100%;
+                    max-width: ${isCardLanguage ? '375px' : '450px'};
+                    display: inline-block;
+                    margin: 24px 8px;
+                }
+            `}</style>
+        </>
+    );
+}
+
 export {
     Header,
     Options,
-    BoxChat,
+    BoxChatPage,
     ListMessages,
     Message,
-    TextArea
+    TextArea,
+    ImageGitHub
 };
