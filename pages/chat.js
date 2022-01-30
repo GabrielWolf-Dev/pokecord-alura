@@ -216,13 +216,16 @@ function ChatPage(){
                                 {
                                     msgList.map((msg) => {
                                         const date = new Date(msg.created_at);
+                                        const day = date.getDate() + 1;
+                                        const month = (date.getMonth() + 1);
+                                        const year = date.getFullYear();
 
                                         return(
                                             <Message
                                                 key={msg.id}
                                                 msg={msg.message}
                                                 username={msg.from}
-                                                date={date.toLocaleDateString()}
+                                                date={`${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`}
                                             />  
                                         );
                                     }
