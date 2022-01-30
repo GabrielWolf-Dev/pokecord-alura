@@ -73,6 +73,12 @@ function BoxChatPage({ children, isChatVisible }) {
                     margin: 0 auto;
                     display: ${isChatVisible ? 'block' : 'none'};
                 }
+
+                @media (max-width: 568px) {
+                    main {
+                        height: 400px;
+                    }
+                }
             `}</style>
         </>
     );
@@ -89,6 +95,7 @@ function ListMessages({ children }) {
                     height: 100%;
                     text-align: left;
                     overflow-y: scroll;
+                    overflow-x: hidden;
                     display: flex;
                     flex-direction: column-reverse;
                 }
@@ -102,7 +109,7 @@ function Message({ date, username, msg }) {
         <>
             <li>
                 <header>
-                    <img className="img-username" src={`https://github.com/${username}.png`} alt={`Foto de perfil do usuário ${username} no GitHub`} />
+                    <img className="img-username" src={`https://github.com/${username}.png`} alt={`Foto de ${username}`} />
 
                     <div>
                         <span className="username-msg">{username}</span>
@@ -148,6 +155,7 @@ function Message({ date, username, msg }) {
                     height: 42px;
                     border-radius: 50%;
                     margin-right: 16px;
+                    font-size: 8px;
                 }
 
                 span {
@@ -211,6 +219,12 @@ function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput }){
                     font-size: var(--font-small);
                     padding: 8px;
                     resize: none;
+                }
+
+                @media (max-width: 568px) {
+                    textarea {
+                        height: 62px;
+                    }
                 }
             `}</style>
         </>

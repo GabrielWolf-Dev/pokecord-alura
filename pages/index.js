@@ -24,6 +24,7 @@ import {
   ImgPerfil,
   UserName
 } from '../src/components/UI/home';
+import { useEffect } from 'react/cjs/react.development';
 
 function Home(){
   const [isDisplayed, setIsDisplayed] = useState(true);
@@ -37,11 +38,14 @@ function Home(){
   ];
   const [inputValueLogin, setInputValueLogin] = useState('');
   const router = useRouter();
+  const [isMuted, setIsMuted] = useState(false);
 
   function stopApresentation(){
-    // Retirar a apresentação e parar a musica se ela não acabar...
-    // E coloca na Box de logar com a conta
     setIsDisplayed(false);
+  }
+
+  function handlerButtonSound(){
+    setIsMuted(!isMuted);
   }
 
   function inputLogin(e){
@@ -69,7 +73,7 @@ function Home(){
 
   return (
     <>
-      <audio autoPlay src="/assets/sounds/pokemon-cover.mp3"></audio>
+      <audio muted={isMuted} autoPlay src="/assets/sounds/pokemon-cover.mp3"></audio>
 
       <BgApp>
         <BgApresentacao isDisplayed={isDisplayed}>
@@ -103,7 +107,7 @@ function Home(){
           </BoxContent>
         </BgApresentacao>
 
-        <BoxContent isLoginPage={true} as="main">
+        <BoxContent isLoginPage={true} as="main" isMuted={isMuted} handlerButtonSound={handlerButtonSound}>
           <main style={{ width: '100%', maxWidth: '400px', padding: '24px 2%' }}>
             <Title titleLogin={true}>Boas Vindas Treinador!</Title>
             <Paragraph>{appConfig.name}</Paragraph>

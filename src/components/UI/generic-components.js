@@ -4,6 +4,8 @@ import appConfig from '../../../config.json';
 /* Assets: */
 import bgPikachu from '../../../public/assets/img/pikachu-fight.jpg';
 import pokeball from '../../../public/assets/img/pokeball-icon.png';
+import sound from '../../../public/assets/img/sound.png';
+import soundMuted from '../../../public/assets/img/sound-muted.png';
 
 function BgApp({ children, tag }){
     const Tag = tag || 'div';
@@ -29,13 +31,27 @@ function BgApp({ children, tag }){
     );
 }
 
-function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" }){
+function BoxContent({
+    children,
+    isLoginPage=false,
+    ischatPage=false,
+    as="div",
+    isMuted,
+    handlerButtonSound
+}){
     const Tag = as;
 
     return(
         <>
             <Tag>
                 <img className="pokeball-icon" src={pokeball.src} alt="Ícone de uma pokebola" />
+                <button className="btn-handler-sound" onClick={handlerButtonSound}>
+                    <img
+                        style={{ width: '100%', height: '100%' }}
+                        src={isMuted ? soundMuted.src : sound.src}
+                        alt={`${isMuted ? 'Música mutada' : 'Música tocando...'}`}
+                    />
+                </button>
 
                 {children}
             </Tag>
@@ -49,7 +65,7 @@ function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" })
                     text-align: center;
                     font-size: var(--font-normal);
                     color: ${appConfig.colors.white};
-                    margin: 0 4%;
+                    margin: 32px 4% 0 4%;
 
                     ${isLoginPage ? `
                         max-width: 800px;
@@ -63,6 +79,15 @@ function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" })
                         max-width: 450px;
                         z-index: 3;
                     `}
+                }
+
+                .btn-handler-sound {
+                    width: 42px;
+                    height: 42px;
+                    position: absolute;
+                    top: 16px;
+                    left: 16px;
+                    display: ${isLoginPage ? 'block' : 'none'};
                 }
 
                 .pokeball-icon {

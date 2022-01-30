@@ -265,7 +265,8 @@ function ChatPage(){
                                     style={{
                                         width: '100%',
                                         height: '100%',
-                                        overflow: 'scroll'
+                                        overflowY: 'scroll',
+                                        overflowX: 'hidden'
                                     }}
                                 >
                                     <Title as="h2">GitHub Status:</Title>

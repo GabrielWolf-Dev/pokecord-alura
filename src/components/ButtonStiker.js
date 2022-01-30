@@ -68,7 +68,8 @@ export default function ButtonSendSticker({ onStickerClick }) {
               justifyContent: 'space-between',
               flex: 1,
               paddingTop: '16px',
-              overflow: 'scroll',
+              overflowY: 'scroll',
+              overflowX: 'hidden',
             }}
           >
             {appConfig.stickers.map((sticker) => (
