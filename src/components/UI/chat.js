@@ -1,5 +1,6 @@
 import _JSXStyle from 'styled-jsx/style';
 import appConfig from '../../../config.json';
+import { Button } from './generic-components';
 
 function Header({ children }) {
     return(
@@ -9,7 +10,7 @@ function Header({ children }) {
             <style jsx>{`
                 header {
                     width: 100%;
-                    max-width: 1100px;
+                    max-width: 1300px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -61,7 +62,7 @@ function BoxChatPage({ children, isChatVisible }) {
             <style jsx>{`
                 main {
                     width: 100%;
-                    max-width: 1050px;
+                    max-width: 1300px;
                     height: 600px;
                     padding: 24px 2%;
                     background-color: ${appConfig.colors['red-white']};
@@ -240,6 +241,198 @@ function ImageGitHub({ src, alt }){
     );
 }
 
+function FormSearchPoke({ handlerSubmit }){
+    return(
+        <>
+            <form onSubmit={handlerSubmit}>
+                <input placeholder="Pesquisar Pokémon..." />
+
+                <Button isSubmit={true}>Procurar</Button>
+            </form>
+
+            <style jsx>{`
+                form {
+                    width: 100%;
+                    max-width: 500px;
+                    margin: 16px auto;
+                    display: flex;
+                    align-items: center;
+                }
+
+                input {
+                    width: 100%;
+                    max-width: 350px;
+                    height: 42px;
+                    color: ${appConfig.colors.white};
+                    background-color: ${appConfig.colors.black};
+                    border: 3px solid ${appConfig.colors.white};
+                    font-size: var(--font-small);
+                    padding-left: 8px;
+                    margin-right: 24px;
+                }
+
+                @media (max-width: 678px) {
+                    form {
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                    }
+
+                    input { margin-right: 0; }
+                }
+            `}</style>
+        </>
+    );
+}
+
+function CardPokemon({ pokemon, sendPokeFavorite=false, removeFavorite, dataId }){
+    return(
+        <>
+            <li key={dataId} className="card-box">
+                <div className="card-border-img">
+                    <img src={pokemon.sprites.front_shiny} alt={pokemon.name} />
+                </div>
+
+                <div className="card-content">
+                    <h3>{pokemon.name}</h3>
+                    <p>{pokemon.types[0].type.name}</p>
+                </div>
+
+                <ul>
+                    {
+                        pokemon.stats.map((statPoke, index) => (
+                            <li key={index} className="list-hab">
+                                <label htmlFor="hp">{statPoke.stat.name}</label>
+                                <progress id="hp" value={statPoke.base_stat} max="100"></progress>
+                            </li>
+                        ))
+                    }
+                </ul>
+
+                {sendPokeFavorite === false 
+                ? <Button dataId={dataId} handleAction={removeFavorite}>Remover</Button> 
+                : <Button handleAction={sendPokeFavorite}>Adicionar</Button>}
+            </li>
+
+            <style jsx>{`
+                .card-box {
+                    width: 100%;
+                    max-width: 300px;
+                    background-color: ${appConfig.colors.red};
+                    padding: 10px 2%;
+                    margin: 16px auto;
+                    text-align: center;
+                    box-shadow: 5px 5px 0px ${appConfig.colors.black};
+                }
+
+                .card-border-img {
+                    width: 100%;
+                    max-width: 140px;
+                    height: 140px;
+                    background-color: ${appConfig.colors['red-white']};
+                    border-radius: 50%;
+                    display: inline-block;
+                    margin: 16px -4px 0 0;
+                    position: relative;
+                }
+
+                .card-border-img > img {
+                    width: 100%;
+                    max-width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    -webkit-transform: translate(-50%,-50%);
+                }
+
+                .card-content { padding: 16px 2%; }
+                
+                .card-content h3 {
+                    color: ${appConfig.colors.black};
+                    font-size: var(--font-normal);
+                }
+
+                .card-content p {
+                    font-size: var(--font-small);
+                    margin: 8px 0;
+                }
+
+                .list-hab {
+                    margin: 8px auto;
+                } 
+
+                .list-hab > label {
+                    display: block;
+                    font-size: var(--font-small);
+                }
+
+                progress {
+                    height: 12px;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                }
+
+                progress::-webkit-progress-value {
+                    border-radius: 10px;
+                    background-color: ${appConfig.colors.yellow};
+                }
+
+                progress::-webkit-progress-bar {
+                    border-radius: 10px;
+                    background-color: ${appConfig.colors.white};
+                }
+                
+            `}</style>
+        </>
+    );
+}
+
+function ListFavoritePoke({ children }){
+    return(
+        <>
+            <ul>{children}</ul>
+
+            <style jsx>{`
+                ul {
+                    width: 100%;
+                    margin-top: 24px;
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    flex-wrap: wrap;
+                }
+            `}</style>
+        </>
+    );
+}
+
+function AlertMsg({ children, as }){
+    const Tag = as || false;
+
+    return(
+        <>
+            <Tag>{children}</Tag>
+
+            <style jsx>{`
+                ${Tag} {
+                    width: 100%;
+                    max-width: 700px;
+                    padding: 8px 2%;
+                    margin: 0 auto;
+                    background-color: ${appConfig.colors.yellow};
+                    color: ${appConfig.colors.black};
+                    font-size: var(--font-normal);
+                    box-shadow: 4px 4px 0px ${appConfig.colors.white};
+                }
+            `}</style>
+        </>
+    );
+}
+
 export {
     Header,
     Options,
@@ -247,5 +440,9 @@ export {
     ListMessages,
     Message,
     TextArea,
-    ImageGitHub
+    ImageGitHub,
+    CardPokemon,
+    FormSearchPoke,
+    ListFavoritePoke,
+    AlertMsg
 };

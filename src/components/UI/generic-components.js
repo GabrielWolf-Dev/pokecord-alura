@@ -58,7 +58,7 @@ function BoxContent({ children, isLoginPage=false, ischatPage=false, as="div" })
                         justify-content: space-between;
                         align-items: center;
                     ` : ischatPage ? `
-                        max-width: 1100px;
+                        max-width: 1400px;
                     ` : `
                         max-width: 450px;
                         z-index: 3;
@@ -116,10 +116,10 @@ function InputText({ placeholderInput, inputHandler }){
     );
 }
 
-function Button({ children, isSubmit=false, handleAction }){
+function Button({ children, isSubmit=false, handleAction, dataId }){
     return(
         <>
-            <button onClick={handleAction} type={isSubmit ? 'submit' : 'button'}>{children}</button>
+            <button data-id={dataId} onClick={handleAction} type={isSubmit ? 'submit' : 'button'}>{children}</button>
 
             <style jsx>{`
                 button {
