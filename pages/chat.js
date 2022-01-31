@@ -241,7 +241,7 @@ function ChatPage(){
                                 {
                                     msgList.map((msg) => {
                                         const date = new Date(msg.created_at);
-                                        const day = date.getDate() + 1;
+                                        const day = date.getDate().toPrecision();
                                         const month = (date.getMonth() + 1);
                                         const year = date.getFullYear();
 
