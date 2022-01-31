@@ -116,8 +116,6 @@ function ChatPage(){
 
         if(e.key === 'Enter' || e.type === 'click') {
             e.preventDefault();
-            console.log(input);
-            console.log(input.setCustomValidity);
 
             if(input.value === '')
                 alert("O campo está vazio!");
@@ -199,7 +197,6 @@ function ChatPage(){
         const table = "messages";
         const values = msgList;
         const setter = setMsgList;
-        console.log(e);
 
         removeColumn(id, table, values, setter);
     }
@@ -350,6 +347,7 @@ function ChatPage(){
                                                 {
                                                     favoritePokemon.map(pokemonFav => (
                                                         <CardPokemon
+                                                            key={pokemonFav.id}
                                                             dataId={pokemonFav.id}
                                                             pokemon={pokemonFav.pokemon}
                                                             removeFavorite={removeFavoritePoke}
