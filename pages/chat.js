@@ -36,15 +36,18 @@ import ButtonSendSticker from '../src/components/ButtonStiker';
 const supabaseURL = process.env.NEXT_PUBLIC_URL_SUPABASE;
 const supabaseAnonKEY = process.env.NEXT_PUBLIC_ANON_KEY_SUPABASE;
 const supabaseConnection = createClient(supabaseURL, supabaseAnonKEY);
-const table = 'messages';
 
 /* Real Time Users Messages */
-function listenMsgsRealTime(newMessage) {
+function listenDataRealTime(table, callback) {
     return supabaseConnection
     .from(table)
     .on("INSERT", (resRealTime) => {
-        newMessage(resRealTime.new);
-    }).subscribe();
+        callback(resRealTime.new);
+    })
+    .on("DELETE", (resRealTime) => {
+        console.log("Mensagem deletada com sucesso");
+    })
+    .subscribe();
 }
 
 function ChatPage(){
@@ -62,18 +65,18 @@ function ChatPage(){
 
     useEffect(async () => {
         const { data } = await supabaseConnection
-            .from(table)
+            .from("messages")
             .select('*')
             .order('id', { ascending: false });
 
         setMsgList(data);
 
-        listenMsgsRealTime((newMsg) => {
+        listenDataRealTime("messages", (newMsg) => {
             setMsgList((currentValueList => [
                 newMsg,
                 ...currentValueList
             ]));
-        });
+        }); 
     }, []);
 
     useEffect(async () => {
@@ -98,6 +101,13 @@ function ChatPage(){
             .match({ username: userLogged });
 
         setFavoritePokemon(data);
+
+        listenDataRealTime("favoritePokemons", (newPokemon) => {
+            setFavoritePokemon((currentValueList => [
+                newPokemon,
+                ...currentValueList
+            ]));
+        });
     }, []);
     
     function logout(){
@@ -135,7 +145,7 @@ function ChatPage(){
 
         /* Insert to Supabase */
         await supabaseConnection
-            .from(table)
+            .from("messages")
             .insert([msgFrom]);
 
         setMessage('');
@@ -174,12 +184,7 @@ function ChatPage(){
             .from('favoritePokemons')
             .insert([data]);
 
-        // Depois que terminar de favoritar
         setPokemon(null);
-        setFavoritePokemon([
-            data,
-            ...favoritePokemon
-        ]);
     }
 
     function removeFavoritePoke(e){
