@@ -24,7 +24,6 @@ import {
   ImgPerfil,
   UserName
 } from '../src/components/UI/home';
-import { useEffect } from 'react/cjs/react.development';
 
 function Home(){
   const [isDisplayed, setIsDisplayed] = useState(true);
@@ -108,7 +107,7 @@ function Home(){
         </BgApresentacao>
 
         <BoxContent isLoginPage={true} as="main" isMuted={isMuted} handlerButtonSound={handlerButtonSound}>
-          <main style={{ width: '100%', maxWidth: '400px', padding: '24px 2%' }}>
+          <main style={{ width: '100%', maxWidth: '400px', padding: '42px 2% 24px 2%' }}>
             <Title titleLogin={true}>Boas Vindas Treinador!</Title>
             <Paragraph>{appConfig.name}</Paragraph>
 
