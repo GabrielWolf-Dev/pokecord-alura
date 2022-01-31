@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { filterXSS } from 'xss';
 import { createClient } from '@supabase/supabase-js';
 import appConfig from '../config.json';
@@ -58,6 +58,7 @@ function ChatPage(){
     const [formatDates, setFormatDates] = useState({});
     const [pokemon, setPokemon] = useState(null);
     const [favoritePokemon, setFavoritePokemon] = useState([]);
+    const textarea = useRef(null);
 
     useEffect(async () => {
         const { data } = await supabaseConnection
@@ -88,7 +89,7 @@ function ChatPage(){
             created_at: originAccount.toLocaleDateString(),
             lastUpdate: lastUpdate.toLocaleDateString()
         });
-    }, []);
+    }, [userLogged]);
     
     useEffect(async () => {
         const { data } = await supabaseConnection
@@ -111,10 +112,17 @@ function ChatPage(){
     }
 
     function sendMessage(e){
+        const input = textarea.current;
+
         if(e.key === 'Enter' || e.type === 'click') {
             e.preventDefault();
+            console.log(input);
+            console.log(input.setCustomValidity);
 
-            newMessage(message);
+            if(input.value === '')
+                alert("O campo está vazio!");
+            else 
+                newMessage(message);
         }
     }
 
@@ -176,24 +184,41 @@ function ChatPage(){
         ]);
     }
 
-    async function removeFavorite(e){
+    function removeFavoritePoke(e){
         const id = e.target.dataset.id;
-
-        const { data, error } = await supabaseConnection
-            .from('favoritePokemons')
-            .delete()
-            .match({ id: id });
+        const table = "favoritePokemons";
+        const values = favoritePokemon;
+        const setter = setFavoritePokemon;
 
         
-        if(error !== null) {
-            alert("Ocorreu algum erro ao excluir o pokémon, por favor tente novamente ou mais tarde...");
-        } else {
-            alert("Pokémon removido com sucesso!");
+        removeColumn(id, table, values, setter);
+    }
 
-            const filterOnlyFavoritePoke = favoritePokemon.filter(pokemon => pokemon.id !== data[0].id);
-            setFavoritePokemon(filterOnlyFavoritePoke);
+    function removeMsg(e){
+        const id = e.target.dataset.id;
+        const table = "messages";
+        const values = msgList;
+        const setter = setMsgList;
+        console.log(e);
+
+        removeColumn(id, table, values, setter);
+    }
+
+    async function removeColumn(id, table, values, setter){
+        const { data, error } = await supabaseConnection
+        .from(table)
+        .delete()
+        .match({ id: id });
+
+    
+        if(error !== null) {
+            alert("Ocorreu algum erro ao excluir o item, por favor tente novamente ou mais tarde...");
+        } else {
+            alert("Exclusão realizada com sucesso!");
+
+            const filterOnlyValues = values.filter(value => value.id !== data[0].id);
+            setter(filterOnlyValues);
         }
-            
     }
 
     return(
@@ -223,9 +248,11 @@ function ChatPage(){
                                         return(
                                             <Message
                                                 key={msg.id}
+                                                dataId={msg.id}
                                                 msg={msg.message}
                                                 username={msg.from}
                                                 date={`${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`}
+                                                deleteMsg={removeMsg}
                                             />  
                                         );
                                     }
@@ -242,6 +269,7 @@ function ChatPage(){
                             marginTop: '24px'
                         }}>
                             <TextArea
+                                refTextArea={textarea}
                                 value={message}
                                 handleOnChange={handleMsg}
                                 handleKeyPress={sendMessage}
@@ -324,7 +352,7 @@ function ChatPage(){
                                                         <CardPokemon
                                                             dataId={pokemonFav.id}
                                                             pokemon={pokemonFav.pokemon}
-                                                            removeFavorite={removeFavorite}
+                                                            removeFavorite={removeFavoritePoke}
                                                         />
                                                     ))
                                                 }

@@ -1,6 +1,12 @@
+import { useRouter } from 'next/router';
 import _JSXStyle from 'styled-jsx/style';
 import appConfig from '../../../config.json';
+
+/* Components */
 import { Button } from './generic-components';
+
+/* Assets */
+import trashBtn from '../../../public/assets/img/trash-btn.png';
 
 function Header({ children }) {
     return(
@@ -104,7 +110,10 @@ function ListMessages({ children }) {
     );
 }
 
-function Message({ date, username, msg }) {
+function Message({ date, username, msg, deleteMsg, dataId }) {
+    const router = useRouter();
+    const userLogged = router.query.username;
+
     return(
         <>
             <li>
@@ -112,10 +121,18 @@ function Message({ date, username, msg }) {
                     <img className="img-username" src={`https://github.com/${username}.png`} alt={`Foto de ${username}`} />
 
                     <div>
-                        <span className="username-msg">{username}</span>
+                        <a target="_blank" href={`https://github.com/${username}`} className="username-msg">{username}</a>
 
                         <span className="date-msg">{date}</span>
                     </div>
+
+                    <button onClick={deleteMsg}>
+                        <img
+                            data-id={dataId}
+                            src={trashBtn.src}
+                            alt="Excluir mensagem"
+                        />
+                    </button>
                 </header>
 
                 <p>{
@@ -132,6 +149,7 @@ function Message({ date, username, msg }) {
                     padding: 16px 2%;
                     border-radius: 12px;
                     transition: .3s ease-out;
+                    position: relative;
                 }
 
                 li:hover {
@@ -178,6 +196,12 @@ function Message({ date, username, msg }) {
                     margin-top: 16px;
                 }
 
+                button {
+                    width: 42px;
+                    height: 42px;
+                    display: ${userLogged === username ? 'block' : 'none'};
+                }
+
                 @media (max-width: 468px) {
                     .img-username {
                         width: 24px;
@@ -198,11 +222,12 @@ function Message({ date, username, msg }) {
     );
 }
 
-function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput }){
+function TextArea({ value, handleOnChange, handleKeyPress, placeholderInput, refTextArea }){
     return(
         <>
             <textarea
                 value={value}
+                ref={refTextArea}
                 onChange={handleOnChange}
                 onKeyPress={handleKeyPress}
                 placeholder={placeholderInput}
